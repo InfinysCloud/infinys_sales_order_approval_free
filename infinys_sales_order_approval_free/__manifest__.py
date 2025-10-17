@@ -13,7 +13,7 @@
     """,
 
     'author': "Infinys System Indonesia",
-    'website': "https://www.infinyscloud.com/platform/odoo/",
+    'website': "https://odoo.isi.id/",
     'license': 'LGPL-3',
     'category': 'sales',
     'version': '0.1',
