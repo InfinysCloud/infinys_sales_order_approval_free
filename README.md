@@ -1,5 +1,5 @@
 # infinys_purchase_order_approval_free
-infinys_purchase_order_approval_free
+infinys_sales_order_approval_free
 
 * About the Module
 This module introduces a dynamic, multi-level approval workflow for sales orders, significantly enhancing control and oversight over your sales processes within Odoo. It provides a robust framework to ensure that sales orders are reviewed and approved by the appropriate person based on their value.
