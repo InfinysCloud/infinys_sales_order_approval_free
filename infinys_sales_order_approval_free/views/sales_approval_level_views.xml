@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+
+        <record id="view_sales_approval_level_list" model="ir.ui.view">
+            <field name="name">sales.approval.level.list</field>
+            <field name="model">sales.approval.level</field>
+            <field name="arch" type="xml">
+                <list string="Sales Approval Levels">
+                    <field name="name"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                    <field name="minimum_amount"/>
+                    <field name="maximum_amount"/>
+                    <field name="sequence"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sales_approval_level_form" model="ir.ui.view">
+            <field name="name">sales.approval.level.form</field>
+            <field name="model">sales.approval.level</field>
+            <field name="arch" type="xml">
+                <form string="Sales Approval Level">
+                    <sheet>
+                        <group string="Approval Level Details">
+                            <group>
+                                <field name="name"/>
+                                <field name="minimum_amount"/>
+                                <field name="maximum_amount"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="user_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sales_approval_level" model="ir.actions.act_window">
+            <field name="name">Sales Approval Levels</field>
+            <field name="res_model">sales.approval.level</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem 
+            id="menu_sale_approval_level" 
+            name="Approval Levels" 
+            parent="sale.menu_sale_config" 
+            action="action_sales_approval_level" 
+            sequence="20"/>
+
+    </data>
+</odoo>

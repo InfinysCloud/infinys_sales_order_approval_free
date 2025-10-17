@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_order_form_inherit_approval" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.approval</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Replace the original confirm button with a new block containing all relevant buttons -->
+                <xpath expr="//button[@name='action_confirm']" position="replace">
+                    <!-- The original confirm button, visible only in draft and sent states -->
+                    <button name="action_confirm" string="Confirm" class="btn-primary" type="object" data-hotkey="q"
+                            modifiers="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                    <!-- The new approve button, visible only in 'to approve' state -->
+                    <button name="button_approve_order" type="object" string="Approve Order" class="oe_highlight"
+                            modifiers="{'invisible': [('state', '!=', 'to approve')]}"/>
+                    <!-- Add a cancel button specifically for the 'to approve' state -->
+                    <button name="action_cancel" string="Cancel" type="object" 
+                            modifiers="{'invisible': [('state', '!=', 'to approve')]}"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='order_lines']" position="after">
+                    <page string="Approval Details" name="approval_details" modifiers="{'invisible': [('approval_line_ids', '=', [])]}">
+                        <field name="approval_line_ids" readonly="1">
+                            <list>
+                                <field name="level_id"/>
+                                <field name="user_ids" widget="many2many_tags"/>
+                                <field name="status"/>
+                                <field name="approved_by_user_id"/>
+                                <field name="rejected_by_user_id"/>
+                                <button name="action_approve" type="object" string="Approve" class="btn btn-primary"
+                                        modifiers="{'invisible': ['|', ('status', '!=', 'current'), ('user_ids', 'not in', [uid])]}"/>
+                                <button name="action_reject" type="object" string="Reject" class="btn btn-secondary"
+                                        modifiers="{'invisible': ['|', ('status', '!=', 'current'), ('user_ids', 'not in', [uid])]}"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit the Quotation tree view to add the decoration -->
+        <record id="sale_quotation_tree_inherit_approval" model="ir.ui.view">
+            <field name="name">sale.quotation.tree.inherit.approval.state</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="decoration-warning">state == 'to approve'</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
